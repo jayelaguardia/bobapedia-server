@@ -165,7 +165,6 @@ VALUES
 
 INSERT INTO UserCreation (
   creation_user,	
-  creation_id,	
   creation_name,	
   creation_tea, 
   creation_flavor1,
@@ -176,4 +175,4 @@ INSERT INTO UserCreation (
   creation_sweetener
   )
 VALUES
-  (1, 1, 'THIS IS A TEST 1', 1, null, null, null, null, null, null);
+  (1, 'THIS IS A TEST 1', 1, null, null, null, null, null, null);

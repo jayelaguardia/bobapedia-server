@@ -30,8 +30,8 @@ creationRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    const { creation_user, creation_id, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
-    const newCreation = { creation_user, creation_id, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener };
+    const { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
+    const newCreation = { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener };
 
     if(newCreation.creation_name === null || newCreation.creation_tea === null) {
       return res.status(400).json({
@@ -83,8 +83,8 @@ creationRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const { creation_user, creation_id, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
-    const creationToUpdate = { creation_user, creation_id, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener };
+    const { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
+    const creationToUpdate = { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener };
 
     if (!creationToUpdate.creation_tea || !creationToUpdate.creation_name)
       return res.status(400).json({
