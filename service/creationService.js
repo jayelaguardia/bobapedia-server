@@ -1,6 +1,10 @@
 const creationService = {
   getAllCreation(knex) {
-    return knex.select('*').from('usercreation');
+    return knex
+      .from('usercreation')
+      .select('*')
+      .join('bobatea', {'tea_id' : 'creation_tea'})
+      .leftJoin('bobaaddons', {'addon_id' : 'creation_addons1'})
   },
 
   insertCreation(knex, newCreation) {
@@ -17,6 +21,8 @@ const creationService = {
     return knex
       .from('usercreation')
       .select('*')
+      .join('bobatea', {'tea_id' : 'creation_tea'})
+      .leftJoin('bobaaddons', {'addon_id' : 'creation_addons1'})
       .where('creation_id', id)
       .first();
   },

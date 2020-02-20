@@ -1,19 +1,21 @@
-const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const classicService = require('../service/classicService');
-
 const classicRouter = express.Router();
-const jsonParser = express.json();
 
 const serializeClassic = classic => ({
   classic_id: classic.classic_id,
   classic_name: xss(classic.classic_name),
-  classic_tea: classic.classic_tea,
+  classic_tea: classic.tea_name,
+  classic_tea_recipe: classic.tea_recipe,
   classic_flavor1: classic.classic_flavor1,	
   classic_flavor2: classic.classic_flavor2,
-  classic_addons1: classic.classic_addons1,	
-  classic_addons2: classic.classic_addons2,	
+
+  classic_addons1: classic.addon_name,	
+  classic_addons1_recipe: classic.addon_recipe,
+
+  classic_addons2: classic.classic_addons2,		
+
   classic_milk: classic.classic_milk,	
   classic_sweetener: classic.classic_sweetener
 });

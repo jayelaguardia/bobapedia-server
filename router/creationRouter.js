@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const creationService = require('../service/creationService');
-
+const { requireAuth } = require('../src/jwt-auth')
 const creationRouter = express.Router();
 const jsonParser = express.json();
 
@@ -10,17 +10,23 @@ const serializeCreation = creation => ({
   creation_user: creation.creation_user,
   creation_id: creation.creation_id,
   creation_name: xss(creation.creation_name),
-  creation_tea: creation.creation_tea,
+  creation_tea: creation.tea_name,
+  creation_tea_recipe: creation.tea_recipe,
   creation_flavor1: creation.creation_flavor1,	
   creation_flavor2: creation.creation_flavor2,
-  creation_addons1: creation.creation_addons1,	
+
+  creation_addons1: creation.addon_name,	
+  creation_addons1_recipe: creation.addon_recipe,	
+
   creation_addons2: creation.creation_addons2,	
+  
   creation_milk: creation.creation_milk,	
   creation_sweetener: creation.creation_sweetener
 });
 
 creationRouter
   .route('/api/creation')
+  .all(requireAuth)
   .get((req, res, next) => {
     const knexInstance = req.app.get('db');
     creationService.getAllCreation(knexInstance)
@@ -30,7 +36,8 @@ creationRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    const { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
+    const creation_user = '';
+    const { creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
     const newCreation = { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener };
 
     if(newCreation.creation_name === null || newCreation.creation_tea === null) {
@@ -38,6 +45,8 @@ creationRouter
         error: { message: 'Missing name or tea in request body' }
     })}
 
+    newCreation.creation_user = req.user.user_id
+    console.log(newCreation);
     creationService.insertCreation(
       req.app.get('db'),
       newCreation
@@ -53,6 +62,7 @@ creationRouter
 
 creationRouter
   .route('/api/creation/:creation_id')
+  .all(requireAuth)
   .all((req, res, next) => {
     creationService.getById(
       req.app.get('db'),
@@ -83,7 +93,8 @@ creationRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
+    const creation_user = '';
+    const { creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener } = req.body;
     const creationToUpdate = { creation_user, creation_name, creation_tea, creation_flavor1, creation_flavor2, creation_addons1, creation_addons2, creation_milk, creation_sweetener };
 
     if (!creationToUpdate.creation_tea || !creationToUpdate.creation_name)
@@ -92,6 +103,8 @@ creationRouter
           message: 'Request body must contain either \'name\' or \'tea\''
         }
       });
+
+      creationToUpdate.creation_user = req.user.user_id
 
     creationService.updateCreation(
       req.app.get('db'),
