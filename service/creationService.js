@@ -1,10 +1,12 @@
 const creationService = {
   getAllCreation(knex) {
     return knex
-      .from('usercreation')
-      .select('*')
-      .join('bobatea', {'tea_id' : 'creation_tea'})
-      .leftJoin('bobaaddons', {'addon_id' : 'creation_addons1'})
+      .raw(`SELECT *, a.addon_name as a_addon_name, b.addon_name as b_addon_name
+      FROM
+      usercreation
+      JOIN bobatea ON tea_id = creation_tea
+      LEFT JOIN bobaaddons a ON a.addon_id = creation_addons1  
+      LEFT JOIN bobaaddons b ON creation_addons2 = b.addon_id`)
   },
 
   insertCreation(knex, newCreation) {
@@ -19,12 +21,13 @@ const creationService = {
 
   getById(knex, id) {
     return knex
-      .from('usercreation')
-      .select('*')
-      .join('bobatea', {'tea_id' : 'creation_tea'})
-      .leftJoin('bobaaddons', {'addon_id' : 'creation_addons1'})
-      .where('creation_id', id)
-      .first();
+      .raw(`SELECT *, a.addon_name as a_addon_name, b.addon_name as b_addon_name
+        FROM
+        usercreation
+        JOIN bobatea ON tea_id = creation_tea
+        LEFT JOIN bobaaddons a ON a.addon_id = creation_addons1  
+        LEFT JOIN bobaaddons b ON creation_addons2 = b.addon_id
+        WHERE classic_id = ${id}`)
   },
 
   deleteCreation(knex, creation_id) {

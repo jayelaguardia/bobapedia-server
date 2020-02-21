@@ -11,15 +11,10 @@ const serializeCreation = creation => ({
   creation_id: creation.creation_id,
   creation_name: xss(creation.creation_name),
   creation_tea: creation.tea_name,
-  creation_tea_recipe: creation.tea_recipe,
   creation_flavor1: creation.creation_flavor1,	
   creation_flavor2: creation.creation_flavor2,
-
-  creation_addons1: creation.addon_name,	
-  creation_addons1_recipe: creation.addon_recipe,	
-
-  creation_addons2: creation.creation_addons2,	
-  
+  creation_addons1: creation.a_addon_name,	
+  creation_addons2: creation.b_addon_name,	
   creation_milk: creation.creation_milk,	
   creation_sweetener: creation.creation_sweetener
 });
@@ -31,7 +26,7 @@ creationRouter
     const knexInstance = req.app.get('db');
     creationService.getAllCreation(knexInstance)
       .then(creation => {
-        res.json(creation.map(serializeCreation));
+        res.json(creation.rows.map(serializeCreation));
       })
       .catch(next);
   })
@@ -80,7 +75,7 @@ creationRouter
       .catch(next);
   })
   .get((req, res, next) => {
-    res.json(serializeCreation(res.creation));
+    res.json(serializeCreation(res.creation.rows[0]));
   })
   .delete((req, res, next) => {
     creationService.deleteCreation(

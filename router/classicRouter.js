@@ -7,15 +7,10 @@ const serializeClassic = classic => ({
   classic_id: classic.classic_id,
   classic_name: xss(classic.classic_name),
   classic_tea: classic.tea_name,
-  classic_tea_recipe: classic.tea_recipe,
   classic_flavor1: classic.classic_flavor1,	
   classic_flavor2: classic.classic_flavor2,
-
-  classic_addons1: classic.addon_name,	
-  classic_addons1_recipe: classic.addon_recipe,
-
-  classic_addons2: classic.classic_addons2,		
-
+  classic_addons1: classic.a_addon_name,	
+  classic_addons2: classic.b_addon_name,		
   classic_milk: classic.classic_milk,	
   classic_sweetener: classic.classic_sweetener
 });
@@ -26,7 +21,7 @@ classicRouter
     const knexInstance = req.app.get('db');
     classicService.getAllClassic(knexInstance)
       .then(classic => {
-        res.json(classic.map(serializeClassic));
+        res.json(classic.rows.map(serializeClassic));
       })
       .catch(next);
   })
@@ -50,7 +45,7 @@ classicRouter
       .catch(next);
   })
   .get((req, res, next) => {
-    res.json(serializeClassic(res.classic));
+    res.json(serializeClassic(res.classic.rows[0]));
   })
 
 module.exports = classicRouter;
