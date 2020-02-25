@@ -41,7 +41,6 @@ creationRouter
     })}
 
     newCreation.creation_user = req.user.user_id
-    console.log(newCreation);
     creationService.insertCreation(
       req.app.get('db'),
       newCreation
