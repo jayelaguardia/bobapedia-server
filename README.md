@@ -25,8 +25,8 @@ Bobapedia is a collection of bubble (or boba) tea recipes. The Classic page is w
 
 ## API Documentation
 
-**Authentication**
-  The endpoints related to creation tea are protected while the ones for classic, login, and registration are not. Simply register and login and you will have the authentication to access creation tea.
+**Authentication** <br>
+The endpoints related to creation tea are protected while the ones for classic, login, and registration are not. Simply register and login and you will have the authentication to access creation tea.
 
 **Endpoints**
 + `/registration`
